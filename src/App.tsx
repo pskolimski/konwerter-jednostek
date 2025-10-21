@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import UnitInput from "./components/UnitInput"
 
 const modes = [
   { name: "length", from: "Metry", to: "Centymetry" },
@@ -30,7 +31,6 @@ export default function App() {
     } else {
       handleConvert(resultValue, true);
     }
-    // eslint-disable-next-line
   }, [activeMode, inputValue, resultValue, isSwapped]);
 
   const handleConvert = (value: string, reverse: boolean) => {
@@ -95,49 +95,68 @@ export default function App() {
 
   return (
     <div className="container">
-      <div className="card px-3 py-5 mt-3 d-flex flex-column align-items-center">
-        <h1>📐 Konwerter jednostek</h1>
+      <div className="card">
+        <h1>📐 Konwerter Jednostek</h1>
 
-        <div className="my-3 btn-group">
-          <button onClick={() => { setActiveMode(modes[0]); setIsSwapped(false); setInputValue(""); setResultValue(""); }} className={`btn ${activeMode.name === "length" ? "btn-primary" : "btn-secondary"}`}>Długość</button>
-          <button onClick={() => { setActiveMode(modes[1]); setIsSwapped(false); setInputValue(""); setResultValue(""); }} className={`btn ${activeMode.name === "weight" ? "btn-primary" : "btn-secondary"}`}>Waga</button>
-          <button onClick={() => { setActiveMode(modes[2]); setIsSwapped(false); setInputValue(""); setResultValue(""); }} className={`btn ${activeMode.name === "temperature" ? "btn-primary" : "btn-secondary"}`}>Temperatura</button>
-          <button onClick={() => { setActiveMode(modes[3]); setIsSwapped(false); setInputValue(""); setResultValue(""); }} className={`btn ${activeMode.name === "speed" ? "btn-primary" : "btn-secondary"}`}>Prędkość</button>
+        <div className="btn-group mt-3">
+          <button
+            onClick={() => { setActiveMode(modes[0]); setIsSwapped(false); setInputValue(""); setResultValue(""); }}
+            className={activeMode.name === "length" ? "active" : ""}
+          >
+            Długość
+          </button>
+          <button
+            onClick={() => { setActiveMode(modes[1]); setIsSwapped(false); setInputValue(""); setResultValue(""); }}
+            className={activeMode.name === "weight" ? "active" : ""}
+          >
+            Waga
+          </button>
+          <button
+            onClick={() => { setActiveMode(modes[2]); setIsSwapped(false); setInputValue(""); setResultValue(""); }}
+            className={activeMode.name === "temperature" ? "active" : ""}
+          >
+            Temperatura
+          </button>
+          <button
+            onClick={() => { setActiveMode(modes[3]); setIsSwapped(false); setInputValue(""); setResultValue(""); }}
+            className={activeMode.name === "speed" ? "active" : ""}
+          >
+            Prędkość
+          </button>
         </div>
 
-        <div className="p-3 w-100">
-          <label htmlFor="value1" className="form-label">Z: {activeMode.from}</label>
-          <input
-            className="form-control"
-            placeholder={activeMode.from}
-            type="number"
-            id="value1"
-            value={inputValue}
-            onChange={(e) => {
-              setIsSwapped(false);
-              setInputValue(e.target.value);
-            }}
-          />
-        </div>
+        <UnitInput
+          label="Z"
+          unit={activeMode.from}
+          value={inputValue}
+          placeholder="100"
+          id="value1"
+          onChange={(value) => {
+            setIsSwapped(false);
+            setInputValue(value);
+          }}
+        />
 
-        <button className="btn btn-primary btn-small" onClick={handleSwapClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up-down-icon lucide-arrow-up-down"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></svg>
+        <button className="swap-button" onClick={handleSwapClick}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m21 16-4 4-4-4" />
+            <path d="M17 20V4" />
+            <path d="m3 8 4-4 4 4" />
+            <path d="M7 4v16" />
+          </svg>
         </button>
 
-        <div className="p-3 w-100">
-          <label htmlFor="value2" className="form-label">Na: {activeMode.to}</label>
-          <input
-            className="form-control"
-            placeholder={activeMode.to}
-            value={resultValue}
-            type="number"
-            id="value2"
-            onChange={(e) => {
-              setIsSwapped(true);
-              setResultValue(e.target.value);
-            }}
-          />
-        </div>
+        <UnitInput
+          label="Na"
+          unit={activeMode.to}
+          value={resultValue}
+          placeholder="10000"
+          id="value2"
+          onChange={(value) => {
+            setIsSwapped(true);
+            setResultValue(value);
+          }}
+        />
       </div>
     </div>
   )
